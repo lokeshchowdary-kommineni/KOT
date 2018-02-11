@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="item_Itemwise" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isTitleNewPage="true" isIgnorePagination="true" uuid="786318c8-d24a-428a-88f9-b06ed80f66f3">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="53"/>
+	<parameter name="startDate" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="endDate" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="companyName" class="java.lang.String"/>
+	<parameter name="Companyaddress" class="java.lang.String"/>
+	<parameter name="ItemCode" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+s.invoice_no AS sinvoice,sr.invoice_no AS srinvoice,s.date AS sdate,sr.return_date AS srdate,si.quantity AS squantity,
+sri.return_quantity AS srquantity,si.unit AS sunit,sri.unit AS srunit,si.cpcpv_amount AS scpcpvAmount,sri.cpcpv_Amount AS srcpcpv_amount,si.amount AS samount,
+sri.amount AS sramount,si.item_code AS sitemcode,sri.item_code AS sritemcode,s.category AS scategory,sr.category AS srcategory ,
+si.WithoutTax AS sWithoutTax,sri.WithoutTax AS srWithoutTax,si.item_name AS sitemname,sri.item_name AS sritemname,s.vaa AS sitemVAA,sr.vaa AS sritemVAA FROM
+sales AS s INNER JOIN
+sales_item AS si ON s.invoice_no=si.invoice_no LEFT JOIN sales_return AS sr ON
+s.invoice_no=sr.invoice_no LEFT JOIN sales_return_item AS sri ON sr.invoice_no=sri.invoice_no  AND si.item_code=sri.item_code WHERE s.date BETWEEN $P{startDate} AND $P{endDate}  si.item_code=$P{ItemCode} OR sri.item_code=$P{ItemCode} GROUP BY si.id,sri.id]]>
+	</queryString>
+	<field name="SINVOICE" class="java.lang.String"/>
+	<field name="SRINVOICE" class="java.lang.String"/>
+	<field name="SDATE" class="java.sql.Date"/>
+	<field name="SRDATE" class="java.sql.Date"/>
+	<field name="SQUANTITY" class="java.math.BigDecimal"/>
+	<field name="SRQUANTITY" class="java.math.BigDecimal"/>
+	<field name="SUNIT" class="java.lang.Integer"/>
+	<field name="SRUNIT" class="java.lang.Integer"/>
+	<field name="SCPCPVAMOUNT" class="java.lang.String"/>
+	<field name="SRCPCPV_AMOUNT" class="java.lang.String"/>
+	<field name="SAMOUNT" class="java.math.BigDecimal"/>
+	<field name="SRAMOUNT" class="java.math.BigDecimal"/>
+	<field name="SITEMCODE" class="java.lang.String"/>
+	<field name="SRITEMCODE" class="java.lang.String"/>
+	<field name="SCATEGORY" class="java.lang.String"/>
+	<field name="SRCATEGORY" class="java.lang.String"/>
+	<field name="SWITHOUTTAX" class="java.math.BigDecimal"/>
+	<field name="SRWITHOUTTAX" class="java.math.BigDecimal"/>
+	<field name="SITEMNAME" class="java.lang.String"/>
+	<field name="SRITEMNAME" class="java.lang.String"/>
+	<field name="SITEMVAA" class="java.math.BigDecimal"/>
+	<field name="SRITEMVAA" class="java.math.BigDecimal"/>
+	<variable name="sSum" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{SITEMVAA}]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="Srsum" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{SRITEMVAA}]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="101" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="555" height="20" uuid="6aa7f2c2-4dde-4410-8eac-1b90555dea78"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{companyName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="20" width="555" height="20" uuid="b4cf5f56-e062-4336-991f-a387ac22b91b"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$P{Companyaddress}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="50" width="555" height="1" uuid="af7ef198-2362-4eec-8c3e-5d20bc737344"/>
+			</line>
+			<line>
+				<reportElement x="0" y="100" width="555" height="1" uuid="a40dd923-dd85-4d02-a185-2ed61ff44963"/>
+			</line>
+			<textField>
+				<reportElement x="0" y="80" width="555" height="20" uuid="3a5ad65f-fe77-4856-a61e-91bffd6bbcb4"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy").format($P{startDate})+" to "+new SimpleDateFormat("dd/MM/yyyy").format($P{endDate})]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="51" width="555" height="29" uuid="4ae49d3d-3226-4724-bf02-e222c34c63ea"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ITEMPROFITREPORTSS_ITEMWISE]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch">
+			<textField>
+				<reportElement x="445" y="15" width="80" height="20" uuid="e14e4a4c-e5d0-41bd-8b63-b2d5b908f8e1"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="525" y="15" width="40" height="20" uuid="b12d7a2c-04d6-4eba-bb1c-d91123bf93fe"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="0" y="15" width="100" height="20" uuid="84f11744-2c89-4e97-b598-b959ca055bbe"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="26" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="0" width="555" height="1" uuid="d9f214b9-6621-4180-8d42-d47489437920"/>
+			</line>
+			<line>
+				<reportElement x="0" y="21" width="555" height="1" uuid="f9249ddc-d4db-4006-9718-04f8a310e513"/>
+			</line>
+			<staticText>
+				<reportElement x="0" y="1" width="115" height="20" uuid="da4cefcf-501a-46ca-b2df-9359d768b7ed"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[ITEM CODE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="320" y="1" width="96" height="20" uuid="42a269f7-8d01-48a4-beeb-6394971913b6"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[VAA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="485" y="1" width="70" height="20" uuid="360e3f24-dd95-42f9-b996-97451f12e819"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[VA%]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="416" y="0" width="69" height="20" uuid="cd68b654-cf27-4e8c-87c1-e5a137b94a23"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[GA%]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="115" y="0" width="205" height="20" uuid="71661e6f-f9c9-4e20-a1d8-12b3c7910577"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[ITEM NAME]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="10" width="115" height="20" uuid="1faaf692-4ac8-4b54-bf16-39a4a71f1848"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{SITEMCODE}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="115" y="10" width="205" height="20" uuid="be08b3ee-f9bd-476f-b8e8-0517e23ab4f8"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{SITEMNAME}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="0" y="30" width="115" height="20" isPrintWhenDetailOverflows="true" uuid="64859ef8-ac6d-443e-a700-7c3471adc82b"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{SRITEMCODE}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="115" y="30" width="205" height="20" isPrintWhenDetailOverflows="true" uuid="8a7b5d36-cffe-4feb-b99c-dc38b36bfa23"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{SRITEMNAME}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="320" y="10" width="96" height="20" uuid="0b9fd0ee-4afd-4cf7-bfe9-cf323ab2474e"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{SITEMVAA}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="320" y="30" width="96" height="20" uuid="84bca26e-b2d5-473e-9f11-90c6122fdf2b"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{SRITEMVAA}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="416" y="10" width="69" height="20" uuid="47a6ff63-8b18-44f0-acc8-37f902140069"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{SITEMVAA}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="485" y="10" width="70" height="20" uuid="fc6e0962-7425-4a1e-905d-a6dabba54628"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{SITEMVAA}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="485" y="30" width="70" height="20" uuid="148ab8b4-3959-4297-8158-c14cc3850dcd"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{SRITEMVAA}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="416" y="30" width="69" height="20" uuid="03c2989d-0c7b-4b08-bcdd-51c6c2789f5d"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{SRITEMVAA}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="30" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="21" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="53" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="0" width="555" height="1" uuid="135ba274-a493-49fc-bad3-48afe78a5264"/>
+			</line>
+			<staticText>
+				<reportElement x="202" y="1" width="118" height="20" uuid="1893f187-eb17-4d36-bd70-4cf94995714f"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Total Sales For VAA:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="171" y="21" width="149" height="20" uuid="c140c16b-67b8-4585-af0f-7bba6e6a713d"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Total Sales Return For VAA:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="320" y="1" width="96" height="20" isPrintWhenDetailOverflows="true" uuid="08813996-98b0-426d-853b-8843eb6944ea"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$V{sSum}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="320" y="21" width="96" height="20" isPrintWhenDetailOverflows="true" uuid="c196a3be-f4be-49fc-a329-0d2d70f23906"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$V{Srsum}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

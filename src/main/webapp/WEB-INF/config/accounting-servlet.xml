@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util" 
+       xmlns:mvc="http://www.springframework.org/schema/mvc" 
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xsi:schemaLocation="http://www.springframework.org/schema/mvc 
+    http://www.springframework.org/schema/mvc/spring-mvc.xsd
+    http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/util
+    http://www.springframework.org/schema/util/spring-util.xsd
+    http://www.springframework.org/schema/context 
+    http://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/tx 
+    http://www.springframework.org/schema/tx/spring-tx.xsd
+    http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd">
+   
+  
+        <context:property-placeholder location="classpath:resources/database.properties" />
+	<context:component-scan base-package="com.accounting"/>
+        
+        <bean id="myBeansValidator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
+        <mvc:annotation-driven content-negotiation-manager="contentNegotiationManager"/>
+
+
+	<tx:annotation-driven transaction-manager="hibernateTransactionManager" proxy-target-class="true"/>
+        <bean id="contentNegotiationManager" class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
+        <!-- Turn off working out content type based on URL file extension, should fall back to looking at the Accept headers -->
+        <property name="favorPathExtension" value="false" />
+        </bean>
+	<bean id="jspViewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewClass"
+			value="org.springframework.web.servlet.view.JstlView" />
+		<property name="prefix" value="/WEB-INF/views/" />
+		<property name="suffix" value=".jsp" />
+               
+	</bean>
+        
+        <bean id="messageSource"
+     class="org.springframework.context.support.ReloadableResourceBundleMessageSource"
+     p:basename="WEB-INF/classes/resources/validation" />
+        <!-- setting  File upload  -->
+       <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+           <property name="maxUploadSize" value="1000000" />
+       </bean>
+
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="${database.driver}" />
+		<property name="url" value="${database.url}" />
+		<property name="username" value="${database.user}" />
+		<property name="password" value="${database.password}" />
+	</bean>
+        
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="annotatedClasses">
+			<list>
+                            
+                                <!--Abi-->
+                                <value>com.accounting.bean.UnitMaster</value>
+                                <value>com.accounting.bean.ItemGroupMaster</value>
+                                <value>com.accounting.bean.AccountGroupMaster</value>		
+                                <value>com.accounting.bean.LedgerAccountMaster</value> 
+                                <value>com.accounting.bean.SupplierMaster</value> 
+                                <value>com.accounting.bean.BuyerMaster</value>
+                                <value>com.accounting.bean.ItcReversalMaster</value> 
+                                <value>com.accounting.bean.DefaultSettings</value>
+                                <value>com.accounting.bean.TaxStructure</value> 
+                                <value>com.accounting.bean.CcodeMaster</value> 
+                                <value>com.accounting.bean.ItemReport</value> 
+                                <value>com.accounting.bean.ItemReport</value> 
+                                <value>com.accounting.bean.PrintSetting</value>
+                                                                                             
+                                <!--- Rajasekaran -->
+                                <value>com.accounting.bean.CompanyInformation</value>
+                                <value>com.accounting.bean.Purchase</value>
+                                <value>com.accounting.bean.PurchaseItem</value>
+                                <value>com.accounting.bean.PurchaseEstimate</value>
+                                <value>com.accounting.bean.PurchaseEstimateItem</value>
+                                <value>com.accounting.bean.ReversalOfItc</value>
+                                <value>com.accounting.bean.ReversalOfItcItem</value>
+                                <value>com.accounting.bean.StockJournal</value>
+                                <value>com.accounting.bean.StockJournalItem</value>
+                                <value>com.accounting.bean.StockFjournalItem</value>
+                                <value>com.accounting.bean.PredefinedBill</value>
+                                <value>com.accounting.bean.PredefinedBillItem</value>                      
+                               
+                                <!--Sivaraj-->
+				<value>com.accounting.bean.ItemMaster</value>   
+                                <value>com.accounting.bean.Sales</value>  
+                                <value>com.accounting.bean.SalesItem</value>  
+                                <value>com.accounting.bean.SalesEstimate</value>  
+                                <value>com.accounting.bean.SalesEstimateItem</value>
+                                <value>com.accounting.bean.SalesReturn</value>  
+                                <value>com.accounting.bean.SalesReturnItem</value>
+                                <value>com.accounting.bean.Entries</value>
+                                <value>com.accounting.bean.Entryitems</value>                        
+
+                                <!-- yabes -->
+                                <value>com.accounting.bean.ReceiptVoucher</value> 
+				<value>com.accounting.bean.VoucherReceiptAndPayment</value> 
+                                <value>com.accounting.bean.VoucherContra</value> 
+                                <value>com.accounting.bean.VoucherJournal</value>  
+                                <value>com.accounting.bean.CcodeMaster</value> 
+
+                                
+                                
+                                <!--sekar-->
+                                <value>com.accounting.bean.AccessControl</value>     
+                                <value>com.accounting.bean.AccessControlMasterTable</value>    
+                                <value>com.accounting.bean.GroupTable</value>    
+                                <value>com.accounting.bean.UserMaster</value>    
+                                 <!--sekar-->
+                                 <!--<value>com.accounting.bean.CustomerMaster</value>-->   
+                                
+                                <!-- lokesh kommineni--> 
+                                <value>com.accounting.bean.KOTForm</value> 
+                                <value>com.accounting.bean.Kot</value> 
+                                <value>com.accounting.bean.KotItem</value> 
+                                <value>com.accounting.bean.Tablemaster</value> 
+                                <value>com.accounting.bean.Waitermaster</value> 
+                                <!-- tarun --> 
+                                <value>com.accounting.bean.SalesBill</value> 
+                                <value>com.accounting.bean.SaleInvoice</value> 
+                                <value>com.accounting.bean.TempKot</value> 
+                                                    
+
+			</list>
+		</property>
+                
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">${hibernate.dialect}</prop>
+				<prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+                                <prop key="format_sql">true</prop>
+				<prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>      
+			</props>
+               </property>         
+        </bean>	
+	<bean id="hibernateTransactionManager"
+		class="org.springframework.orm.hibernate5.HibernateTransactionManager" >
+                <property name="autodetectDataSource" value="false"/>
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+</beans>

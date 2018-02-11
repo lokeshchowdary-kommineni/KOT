@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="SalesHSN" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ab1c2644-c21d-45a2-800e-f210e6d953e8">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="companyName" class="java.lang.String"/>
+	<parameter name="Companyaddress" class="java.lang.String"/>
+	<parameter name="startDate" class="java.util.Date"/>
+	<parameter name="endDate" class="java.util.Date"/>
+	<queryString>
+		<![CDATA[SELECT i.com_code,SUM(si.amount) AS amount,c.ccode_id FROM item_master i LEFT JOIN ccode_master c ON i.com_code=c.ccode_id INNER JOIN sales_item si ON
+si.item_code=i.item_code INNER JOIN sales s ON s.invoice_no=si.invoice_no
+ WHERE s.date BETWEEN $P{startDate} AND $P{endDate}
+GROUP BY i.com_code]]>
+	</queryString>
+	<field name="com_code" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="amount" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ccode_id" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<variable name="amount_1" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{amount}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="158">
+			<staticText>
+				<reportElement x="0" y="110" width="555" height="25" uuid="07f39977-01b3-4cd9-9c20-f698532c7abe"/>
+				<textElement textAlignment="Center">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[HSN CODE]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="109" width="555" height="1" uuid="42d2fe11-0534-45e5-ab34-ec937aee6f0d"/>
+			</line>
+			<textField>
+				<reportElement x="0" y="58" width="555" height="20" uuid="9284040e-e783-4e76-9b03-87df80dddfd2"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{companyName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="78" width="555" height="20" uuid="1572fb60-f991-4572-880d-ec8750b08d8e"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$P{Companyaddress}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="138" width="555" height="20" uuid="a3c00871-e9a6-40d9-9b96-ffcca16ff0e2"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy").format($P{startDate})+" to "+new SimpleDateFormat("dd/MM/yyyy").format($P{endDate})]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="54" splitType="Stretch">
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="14" y="11" width="112" height="20" uuid="1806414b-7e40-4dcd-a123-8f671d99d5f0"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="44" width="555" height="1" uuid="6fdf6971-7b5d-411c-a074-8223e5321e4d"/>
+			</line>
+			<textField>
+				<reportElement x="431" y="11" width="59" height="20" uuid="e2a3bb6b-ceed-43a2-ab1c-f0dcc4c1780d"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="490" y="11" width="27" height="20" uuid="aeffb0bc-606a-4277-b3c7-fae544e9d8ce"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="62" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="17" width="263" height="19" uuid="f4f2ffce-3170-4b62-a6d2-2dee89843c39"/>
+				<textElement textAlignment="Center">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[HSN CODE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="263" y="17" width="292" height="19" uuid="cdd19f07-83f0-4339-a45f-f660240e3988"/>
+				<textElement textAlignment="Center">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SALES]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="55" width="555" height="1" uuid="021c1f32-227f-49f2-8e77-0b5131b8e0e1"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="38" splitType="Stretch">
+			<textField>
+				<reportElement x="82" y="18" width="100" height="20" uuid="66f99fdc-c534-4933-af9b-988e9bbb61e2"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{com_code}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="358" y="18" width="100" height="20" uuid="e11e0783-7f5c-4228-9d9a-073d7cb7fdc6"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{amount}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="7" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="6" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="46" splitType="Stretch">
+			<staticText>
+				<reportElement x="82" y="14" width="100" height="20" uuid="661f7a60-fa90-483d-85d0-fa5f7f752802"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="4" width="555" height="1" uuid="9037f952-b630-4992-9c66-19ecc57b4420"/>
+			</line>
+			<textField>
+				<reportElement x="358" y="14" width="100" height="20" uuid="31462069-ea22-49c3-93bb-c7a4fdc0b67b"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$V{amount_1}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

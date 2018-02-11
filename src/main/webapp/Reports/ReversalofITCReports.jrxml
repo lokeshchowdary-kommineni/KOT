@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="vaa_mca_reports" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ddb6c90d-e378-4ebc-b51b-13e83e92dd96">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="startDate" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="endDate" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="companyName" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="Companyaddress" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT *  FROM reversal_of_itc AS r
+WHERE r.return_date BETWEEN $P{startDate} AND $P{endDate}]]>
+	</queryString>
+	<field name="reversal_od_itc_id" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="return_date" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="mode" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ledger_account" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="total_amount" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="total_cgst" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="total_igst" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="total_vat" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="add_or_less" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="debt_amount" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<variable name="TotalAssess" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{total_amount}]]></variableExpression>
+		<initialValueExpression><![CDATA[Double.valueOf(0)]]></initialValueExpression>
+	</variable>
+	<variable name="cgstTotal" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{total_cgst}]]></variableExpression>
+		<initialValueExpression><![CDATA[Double.valueOf(0)]]></initialValueExpression>
+	</variable>
+	<variable name="igstTotal" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{total_igst}]]></variableExpression>
+		<initialValueExpression><![CDATA[Double.valueOf(0)]]></initialValueExpression>
+	</variable>
+	<variable name="sgstTotal" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{total_vat}]]></variableExpression>
+		<initialValueExpression><![CDATA[Double.valueOf(0)]]></initialValueExpression>
+	</variable>
+	<variable name="AddLessTotal" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{add_or_less}]]></variableExpression>
+		<initialValueExpression><![CDATA[Double.valueOf(0)]]></initialValueExpression>
+	</variable>
+	<variable name="AmountTotal" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{debt_amount}]]></variableExpression>
+		<initialValueExpression><![CDATA[Double.valueOf(0)]]></initialValueExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="82" splitType="Stretch">
+			<textField isBlankWhenNull="false">
+				<reportElement x="0" y="0" width="555" height="20" uuid="7f8f3ac3-4366-4a27-97be-50796809eba7"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{companyName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="20" width="555" height="12" uuid="2fc5253e-a625-41d5-ab29-a5681819c101"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$P{Companyaddress}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="33" width="555" height="1" uuid="d96d57ac-df56-4088-8618-21aba9c1e2a7"/>
+			</line>
+			<staticText>
+				<reportElement x="0" y="38" width="555" height="20" uuid="8572cd81-a159-4fb9-a260-9a56f1c7a24d"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[REVERSAL OF ITC  REPORTS ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="1" y="61" width="554" height="20" uuid="f985c7a6-3b46-4332-871b-c254e98825a2"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy").format($P{startDate})+" to "+new SimpleDateFormat("dd/MM/yyyy").format($P{endDate})]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="21" splitType="Stretch">
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="1" y="0" width="100" height="20" uuid="8ffd7d73-bb23-49bb-b731-70b4973e1d33"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="436" y="0" width="80" height="20" isPrintWhenDetailOverflows="true" uuid="785b69cd-f52b-4ae5-ad91-98fd013b5ca0"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="1" y="20" width="555" height="1" uuid="9efcb6f6-f6c1-42b6-b7ea-1b95647b46da"/>
+			</line>
+			<textField isStretchWithOverflow="true" evaluationTime="Report" isBlankWhenNull="true">
+				<reportElement x="516" y="0" width="40" height="20" isPrintWhenDetailOverflows="true" uuid="4fa59f6d-555c-43d4-be43-b26f078d7bbd"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="33" splitType="Stretch">
+			<staticText>
+				<reportElement x="1" y="0" width="56" height="20" uuid="c279b80d-8d8a-4d58-ade5-4cc9654fd136"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[BILL NO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="436" y="0" width="50" height="20" uuid="4eda75ef-97d4-4a3e-b4e5-381db1900ddc"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[ADD/LESS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="128" y="0" width="35" height="20" uuid="0720f8a1-c4ba-46ea-8521-c42d4640f123"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[MODE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="396" y="0" width="40" height="20" uuid="6105416d-7c01-4963-bdcc-59f39ad6a3f4"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[SGST]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="57" y="0" width="71" height="27" uuid="1a110206-991c-41a4-b79d-b62d0497fc44"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[RETURN DATE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="163" y="0" width="100" height="20" uuid="62f97653-20bf-4c93-8d10-ea7def0a7e6c"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[SUPPLIER NAME]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="486" y="0" width="70" height="20" uuid="f880cea9-e2bd-4bad-969d-e5146c1cb5d2"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[AMOUNT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="350" y="0" width="46" height="20" uuid="8dfd1c6a-2a7d-4510-b490-8fab3801f9c9"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[CGST]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="309" y="0" width="41" height="20" uuid="df1a9375-5db3-4f83-b953-65a60aa0b589"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[IGST]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="263" y="0" width="46" height="27" uuid="3483c12a-81d9-4c34-832f-e73e9a780463"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[ASSESS VALUE]]></text>
+			</staticText>
+			<line>
+				<reportElement x="1" y="32" width="555" height="1" uuid="207e5c1d-b6f2-4507-b43f-0ea4adf0f939"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="27" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="57" height="20" uuid="6f529adc-d0d7-4efe-8b86-99df17996d33"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{reversal_od_itc_id}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="57" y="0" width="71" height="20" uuid="0eaf9450-dd97-4b47-b280-deaebea87f0c"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy").format($F{return_date})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="128" y="0" width="35" height="20" uuid="58d7f4d8-9d06-43d8-a7a7-5f8e4ba94714"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{mode}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="163" y="0" width="100" height="20" isPrintWhenDetailOverflows="true" uuid="ab813edd-776d-4671-b6a7-fc01131277ea"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{ledger_account}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="263" y="0" width="46" height="20" isPrintWhenDetailOverflows="true" uuid="e7923424-afb1-41e9-8623-318644832d86"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{total_amount}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="350" y="0" width="46" height="20" isPrintWhenDetailOverflows="true" uuid="b2c89503-f58a-4264-a6e4-dc3e5b67f31a"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{total_cgst}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="396" y="0" width="40" height="20" isPrintWhenDetailOverflows="true" uuid="4662e1e3-17be-4820-b947-03247d0a8d95"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{total_vat}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="436" y="0" width="50" height="20" isPrintWhenDetailOverflows="true" uuid="4de54ffa-219b-4596-8e64-2991e85a240b"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{add_or_less}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="486" y="0" width="69" height="20" isPrintWhenDetailOverflows="true" uuid="6f26b446-ba4c-4127-805b-51a5762e4e20"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{debt_amount}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="309" y="0" width="41" height="20" isPrintWhenDetailOverflows="true" uuid="4859dec1-4560-42e3-b81b-95e1b55226cc"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{total_igst}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="36" splitType="Stretch">
+			<line>
+				<reportElement x="1" y="0" width="554" height="1" uuid="9786bcc5-268b-44cd-80dd-b0554bc468e7"/>
+			</line>
+			<staticText>
+				<reportElement x="1" y="11" width="69" height="14" uuid="958c4cd7-4125-4146-855c-e66419f46104"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Grand Total]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="263" y="5" width="46" height="20" isPrintWhenDetailOverflows="true" uuid="79aa2711-0031-4f95-a80c-569d8ecf41bf"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{TotalAssess}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="350" y="5" width="46" height="20" isPrintWhenDetailOverflows="true" uuid="127337ac-b6d8-42c6-bda3-e2e9102140ad"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{cgstTotal}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="396" y="5" width="40" height="20" isPrintWhenDetailOverflows="true" uuid="ace19619-25d2-4679-9b85-c5722463dcb6"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{sgstTotal}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="436" y="5" width="50" height="20" isPrintWhenDetailOverflows="true" uuid="a2ec23cb-bd96-4a7d-b92f-fa341333450f"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{AddLessTotal}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="486" y="5" width="69" height="20" isPrintWhenDetailOverflows="true" uuid="9b0d268b-922e-4ee6-a944-721724b33c0d"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{AmountTotal}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="309" y="5" width="41" height="20" isPrintWhenDetailOverflows="true" uuid="22764d7b-0c54-454b-9d21-ef637c5be623"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{igstTotal}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

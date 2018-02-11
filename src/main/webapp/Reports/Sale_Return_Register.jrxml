@@ -1,0 +1,391 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Sale return register" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="66680847-2456-4d55-8b17-d4f333f211a5">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="Company Name" class="java.lang.String"/>
+	<parameter name="Company Address" class="java.lang.String"/>
+	<parameter name="FromDate" class="java.lang.String"/>
+	<parameter name="Todate" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT * From Sales_Return WHERE   date between $P{FromDate} and $P{Todate}]]>
+	</queryString>
+	<field name="ID" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ACTUAL_MCA" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ADD_LESS" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="AMOUNT" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ASSESS_VALUE" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="AUTHID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="BUYER_BALANCE" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="BUYER_ID" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="CASH_BUYER" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="CATEGORY" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="CGST" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="CP_CPV" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="DATE" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="DISCOUNT" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="INVOICE_AMOUNT" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="INVOICE_NO" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ITEM_CODE" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ITEM_NAME" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="MARGIN" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="MCA" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="MEDIATOR_BALANCE" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="MEDIATOR_ID" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="MODE" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="NAME_OF_BUYER" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="NAME_OF_MEDIATOR" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="NARRATION" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="QUANTITY" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="RATE" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="RETURN_DATE" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="TIN_NO" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="TOTAL_CGST" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="TOTAL_IGST" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="TOTAL_VAT" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="UNIT" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="VAA" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="VAT" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="WITHOUTTAX" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="WORK_SITE" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<variable name="assessTotal" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{ASSESS_VALUE}]]></variableExpression>
+		<initialValueExpression><![CDATA[Double.valueOf(0)]]></initialValueExpression>
+	</variable>
+	<variable name="cgst" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{TOTAL_CGST}]]></variableExpression>
+		<initialValueExpression><![CDATA[Double.valueOf(0)]]></initialValueExpression>
+	</variable>
+	<variable name="igst" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{TOTAL_IGST}]]></variableExpression>
+		<initialValueExpression><![CDATA[Double.valueOf(0)]]></initialValueExpression>
+	</variable>
+	<variable name="sgst" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{TOTAL_VAT}]]></variableExpression>
+		<initialValueExpression><![CDATA[Double.valueOf(0)]]></initialValueExpression>
+	</variable>
+	<variable name="addless" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{ADD_LESS}]]></variableExpression>
+		<initialValueExpression><![CDATA[Double.valueOf(0)]]></initialValueExpression>
+	</variable>
+	<variable name="total" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{INVOICE_AMOUNT}]]></variableExpression>
+		<initialValueExpression><![CDATA[Double.valueOf(0)]]></initialValueExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="56" splitType="Stretch">
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="0" y="15" width="802" height="20" isPrintWhenDetailOverflows="true" uuid="2b3b10ab-a90d-489c-891e-ef34397bf4d0"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Company Name}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="false">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="0" y="35" width="802" height="16" isPrintInFirstWholeBand="true" isPrintWhenDetailOverflows="true" uuid="4bb7d5b8-c133-49af-b1af-da7faa3c4cfa"/>
+				<textElement textAlignment="Center">
+					<font isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Company Address}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="54" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="12" width="802" height="16" uuid="402ba210-f25f-43e4-9e63-dce7458b2de3"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Sales Return Register]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="0" width="802" height="1" uuid="858511e6-6979-412b-9ef2-0b815475a454"/>
+			</line>
+			<textField>
+				<reportElement x="0" y="28" width="802" height="17" uuid="ee01c29b-878b-4460-9407-c5b1139ee7c9"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$P{FromDate}+" to "+$P{Todate}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="53" width="802" height="1" uuid="cbe784dd-e728-4914-9942-c22f409015ac"/>
+			</line>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="32">
+			<staticText>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="61" y="10" width="61" height="15" isPrintWhenDetailOverflows="true" uuid="80711faf-015e-4ddf-a7f3-3bbb4eac02ff"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[DATE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="122" y="10" width="100" height="15" isPrintWhenDetailOverflows="true" uuid="ab5249f6-f07a-452e-8e0f-ac2f5068f7f7"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[BUYER NAME]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="234" y="10" width="50" height="15" isPrintWhenDetailOverflows="true" uuid="7eb577f7-e109-4963-917a-081ac80d5a36"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[MODE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="294" y="10" width="100" height="15" isPrintWhenDetailOverflows="true" uuid="17ad79e1-676c-457b-be43-d0c5b5f74b7a"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[CATEGORY]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="406" y="10" width="102" height="15" isPrintWhenDetailOverflows="true" uuid="0cdd46db-9bed-42ab-8c8e-9711671b0426"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[ASSESS VALUE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="584" y="10" width="41" height="15" isPrintWhenDetailOverflows="true" uuid="47044278-95a9-4202-b5dc-0dd4e4ffcb19"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[CGST]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="625" y="10" width="54" height="15" isPrintWhenDetailOverflows="true" uuid="11618e66-b713-4395-8c9f-5114daac7956"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[SGST]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="679" y="10" width="58" height="15" isPrintWhenDetailOverflows="true" uuid="b39bdd4b-a943-4712-8e1a-f82bea2069be"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[ADD/LESS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="737" y="10" width="62" height="15" isPrintWhenDetailOverflows="true" uuid="c0e4cfbb-b831-480f-bf1b-e238701c0ce6"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL AMOUNT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="10" y="10" width="51" height="15" isPrintWhenDetailOverflows="true" uuid="0b1ce62e-d823-44a1-8669-867a126dce1d"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[BILL NO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="525" y="10" width="41" height="15" uuid="66be98be-cd10-453a-9672-c3ff86f97713"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[IGST]]></text>
+			</staticText>
+			<line>
+				<reportElement x="3" y="25" width="799" height="1" uuid="d94153fe-0446-4b00-b93d-303d7d213f38"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="31">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="61" y="9" width="61" height="17" isPrintWhenDetailOverflows="true" uuid="7edf8db0-dccf-4346-869b-a883e393ef82"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy").format($F{DATE})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="122" y="9" width="100" height="17" isPrintWhenDetailOverflows="true" uuid="657e4020-c29a-484b-9c17-fc093080126a"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{NAME_OF_BUYER}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="234" y="9" width="50" height="17" isPrintWhenDetailOverflows="true" uuid="dc2ac5a4-237d-4492-9027-3e7852263de4"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{MODE}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="294" y="9" width="100" height="17" isPrintWhenDetailOverflows="true" uuid="56148dca-7bda-41d4-b0d0-1c26ebeedc74"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{CATEGORY}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="406" y="9" width="102" height="17" isPrintWhenDetailOverflows="true" uuid="2fb74d5a-1669-4531-8152-8c6237b85ab2"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{ASSESS_VALUE}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="584" y="9" width="41" height="17" isPrintWhenDetailOverflows="true" uuid="72f99fb2-7712-4387-8708-150c4dca61bf"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{TOTAL_CGST}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="625" y="9" width="54" height="17" isPrintWhenDetailOverflows="true" uuid="dd2b0b0f-45cc-4a9d-a3af-5b2dfbc969ff"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{TOTAL_VAT}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="679" y="9" width="58" height="17" isPrintWhenDetailOverflows="true" uuid="1a209928-6fc1-4155-abe1-be9f4e0bf8e8"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{ADD_LESS}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="737" y="9" width="62" height="17" isPrintWhenDetailOverflows="true" uuid="d1a61733-8db5-41d7-a5ad-9088b439e167"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{INVOICE_AMOUNT}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="10" y="9" width="51" height="17" isPrintWhenDetailOverflows="true" uuid="36580a26-369d-4af3-a6c0-3ee82a75736d"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{INVOICE_NO}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="525" y="9" width="41" height="20" isPrintWhenDetailOverflows="true" uuid="8129cf0a-ca1b-40f8-9aeb-1ae5e5f6b847"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{TOTAL_IGST}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="51" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="3" width="802" height="1" uuid="96a2c37f-284c-4c92-abf2-c85d60c2d765"/>
+			</line>
+			<staticText>
+				<reportElement x="1" y="23" width="110" height="20" uuid="1ece97ec-2c4c-426e-aca7-f81ae6abbff2"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[   Grand Total]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="406" y="23" width="102" height="20" isPrintWhenDetailOverflows="true" uuid="6f17a347-108f-4938-8dcd-c8d63fe29a91"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new DecimalFormat("#.##").format(Double.valueOf($V{assessTotal}))]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="584" y="24" width="41" height="19" uuid="d4f4d2a3-d08c-45d5-ae60-893ee8cb1332"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new DecimalFormat("#.##").format(Double.valueOf($V{cgst}))]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="625" y="23" width="54" height="20" uuid="bb6cf738-1b19-4f83-b0ec-ba7cfcf8bb8d"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new DecimalFormat("#.##").format(Double.valueOf($V{sgst}))]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="679" y="23" width="58" height="20" uuid="1754f04e-98b7-4635-854b-6dfc03f5d822"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new DecimalFormat("#.##").format(Double.valueOf($V{addless}))]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="737" y="23" width="62" height="20" uuid="d82c68a2-f3fb-42de-b597-aa012dd47993"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new DecimalFormat("#.##").format(Double.valueOf($V{total}))]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="525" y="23" width="41" height="19" isPrintWhenDetailOverflows="true" uuid="438784b3-71d8-413b-9706-474d0099b8ad"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new DecimalFormat("#.##").format(Double.valueOf($V{cgst}))]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

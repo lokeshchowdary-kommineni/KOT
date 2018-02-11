@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ItemProfitReports" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0ce45daf-1178-467d-89ea-fdc3705fc207">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="companyName" class="java.lang.String"/>
+	<parameter name="Companyaddress" class="java.lang.String"/>
+	<parameter name="startDate" class="java.util.Date"/>
+	<parameter name="endDate" class="java.util.Date"/>
+	<parameter name="ItemCode" class="java.lang.String"/>
+	<parameter name="wQry" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+s.invoice_no AS sinvoice,sr.invoice_no AS srinvoice,s.date AS sdate,sr.return_date AS srdate,si.quantity AS squantity,
+sri.return_quantity AS srquantity,si.unit AS sunit,sri.unit AS srunit,si.cpcpv_amount AS scpcpvAmount,sri.cpcpv_Amount AS srcpcpv_amount,si.amount AS samount,
+sri.amount AS sramount,si.item_code AS sitemcode,sri.item_code AS sritemcode,s.category AS scategory,sr.category AS srcategory ,
+si.WithoutTax AS sWithoutTax,sri.WithoutTax AS srWithoutTax,si.item_name AS sitemname,sri.item_name AS sritemname FROM
+sales AS s INNER JOIN
+sales_item AS si ON s.invoice_no=si.invoice_no LEFT JOIN sales_return AS sr ON
+s.invoice_no=sr.invoice_no LEFT JOIN sales_return_item AS sri ON sr.id=sri.invoice_no  AND si.item_code=sri.item_code  WHERE s.date BETWEEN $P{startDate} AND $P{endDate} $P!{wQry}  GROUP BY si.id,sri.id]]>
+	</queryString>
+	<field name="sinvoice" class="java.lang.String"/>
+	<field name="srinvoice" class="java.lang.String"/>
+	<field name="sdate" class="java.sql.Date"/>
+	<field name="srdate" class="java.sql.Date"/>
+	<field name="squantity" class="java.math.BigDecimal"/>
+	<field name="srquantity" class="java.lang.Integer"/>
+	<field name="sunit" class="java.lang.Integer"/>
+	<field name="srunit" class="java.lang.Integer"/>
+	<field name="scpcpvAmount" class="java.lang.String"/>
+	<field name="srcpcpv_amount" class="java.lang.String"/>
+	<field name="samount" class="java.math.BigDecimal"/>
+	<field name="sramount" class="java.math.BigDecimal"/>
+	<field name="sitemcode" class="java.lang.String"/>
+	<field name="sritemcode" class="java.lang.String"/>
+	<field name="scategory" class="java.lang.String"/>
+	<field name="srcategory" class="java.lang.String"/>
+	<field name="sWithoutTax" class="java.math.BigDecimal"/>
+	<field name="srWithoutTax" class="java.math.BigDecimal"/>
+	<field name="sitemname" class="java.lang.String"/>
+	<field name="sritemname" class="java.lang.String"/>
+	<variable name="SsumofVaa" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[Double.valueOf(new DecimalFormat("#.##").format($F{scategory}.equalsIgnoreCase("Consumers(B2C)" )?  ($F{sWithoutTax}.doubleValue()-(( ($F{squantity}.doubleValue()==0? 0:Double.valueOf($F{scpcpvAmount})/ $F{squantity}.doubleValue()))*$F{squantity}.doubleValue()) ): $F{samount}.doubleValue()-Double.valueOf($F{scpcpvAmount})))]]></variableExpression>
+		<initialValueExpression><![CDATA[Double.valueOf(0.0)]]></initialValueExpression>
+	</variable>
+	<variable name="SRsumofVaa" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[Double.valueOf(new DecimalFormat("#.##").format($F{scategory}.equalsIgnoreCase("Consumers(B2C)" )?  ($F{srWithoutTax}.doubleValue()-((($F{srquantity}.doubleValue()==0? 0:Double.valueOf($F{srcpcpv_amount})/ $F{srquantity}.doubleValue()) )*$F{srquantity}.doubleValue()) ): $F{sramount}.doubleValue()-Double.valueOf($F{srcpcpv_amount})))]]></variableExpression>
+		<initialValueExpression><![CDATA[Double.valueOf(0.0)]]></initialValueExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="98" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="555" height="20" uuid="fa253b77-a327-4ecb-b76c-471bae85a07d"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{companyName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="20" width="555" height="20" uuid="0a7a31f4-6642-43cd-86a7-c4c1eeefa992"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$P{Companyaddress}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="40" width="555" height="1" uuid="77e89322-6791-4af6-8a3e-62ff2e61be2e"/>
+			</line>
+			<staticText>
+				<reportElement x="0" y="41" width="555" height="20" uuid="0d2ee0b7-90f7-42ac-a246-27f2c1450223"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ITEM PROFIT REPORTS VOUCHER WISE]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="157" y="62" width="100" height="20" uuid="8b04fa39-b75a-4a42-8299-f818a06db072"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy").format($P{startDate})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="285" y="62" width="97" height="20" uuid="12b6ebb8-23de-4dc6-96b0-bc11f10dadeb"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy").format($P{endDate})]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="257" y="62" width="28" height="20" uuid="bcc75783-193d-4735-837b-d0949198fbc2"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[TO]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="37" splitType="Stretch">
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="4" y="2" width="100" height="20" uuid="f93fa852-f2e5-49b5-83dd-ffcd17a7b375"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="435" y="2" width="80" height="20" uuid="797c5464-2d39-406e-8e9d-267aaa1548c9"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="515" y="2" width="40" height="20" uuid="34f7881b-5d8e-471c-aaf7-5602bea77fa9"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="42" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="0" width="555" height="1" uuid="96e5a7d5-08c8-4e0c-a86f-1aa07a322d9e"/>
+			</line>
+			<line>
+				<reportElement x="0" y="27" width="555" height="1" uuid="d1a89ed6-4762-4ab9-9250-5ff62eb7173e"/>
+			</line>
+			<staticText>
+				<reportElement x="0" y="8" width="68" height="20" uuid="2322872a-db69-4e29-9ed7-f55a4d684007"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[BillNO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="68" y="7" width="79" height="20" uuid="1a6571a0-a2f9-47fd-a51b-c0955a321ba2"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[TYPE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="147" y="8" width="80" height="20" uuid="fcd893ea-0cb6-495d-903c-7dcda509c4b7"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[ITEM CODE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="227" y="7" width="81" height="20" uuid="568c7e41-768b-4abe-abcf-6eda6f2fdfb9"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[DATE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="308" y="7" width="74" height="20" uuid="43fc416e-cabc-4351-aa4a-336b061b730b"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[QTY*CP]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="382" y="8" width="90" height="20" uuid="3a67e4e5-4edd-4ae4-b3c5-e0b2e3835623"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[SALES AMOUNT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="472" y="7" width="83" height="20" uuid="6b1a58fd-c44d-49a0-a5f1-86f3e4875582"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[VAA]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="45" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="68" height="20" uuid="a986f81d-73d4-4c9c-96ed-4ec79430f2c7"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{sinvoice}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="0" y="20" width="68" height="20" uuid="0acfd1a7-0ba9-499c-9220-e05ee75e262b"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{srinvoice}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="68" y="0" width="79" height="20" uuid="6de03a54-0842-4b68-a83e-9f9479bf6bb5"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[SALES]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="68" y="20" width="79" height="20" uuid="fc963417-f2b8-436f-bb62-69c8de7e5fcb"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[SALES RETURN]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="147" y="0" width="80" height="20" uuid="a1f7abff-800b-48e4-942c-03c9c34042d1"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{sitemcode}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="147" y="20" width="80" height="20" uuid="d6bcbd2c-1ddc-4b6e-b4e6-af712ba0ad4d"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{sritemcode}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="227" y="0" width="81" height="20" uuid="dc60b651-b67d-49f9-8ef7-6ab6d31a8ed3"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy").format($F{sdate})]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="227" y="20" width="81" height="20" uuid="ea3b84ce-b1fe-46e8-a66f-4790a5f69e05"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy").format($F{srdate})]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="308" y="0" width="74" height="20" uuid="84a2d351-a9f1-4c4d-add3-cca04ce03469"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[($F{scategory}=="Consumers(B2C)" ? ((Double.valueOf($F{scpcpvAmount}) /$F{squantity}.doubleValue())*$F{squantity}.doubleValue()) :$F{scpcpvAmount})]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="382" y="0" width="90" height="20" uuid="d6444517-829e-46a9-898a-31e04c98c116"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[($F{scategory}=="Consumers(B2C)" ? $F{sWithoutTax} : $F{samount})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="472" y="0" width="83" height="20" isPrintWhenDetailOverflows="true" uuid="b3b598f1-b171-4f30-884b-cf6060ac65aa"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#.##").format($F{scategory}.equalsIgnoreCase("Consumers(B2C)" )?  ($F{sWithoutTax}.doubleValue()-(( ($F{squantity}.doubleValue()==0? 0:Double.valueOf($F{scpcpvAmount})/ $F{squantity}.doubleValue()))*$F{squantity}.doubleValue()) ): $F{samount}.doubleValue()-Double.valueOf($F{scpcpvAmount}))]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="308" y="20" width="74" height="20" uuid="6227856b-dedb-46c9-b4b6-e76d2386df5b"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[($F{scategory}=="Consumers(B2C)" ? ((Double.valueOf($F{srcpcpv_amount}) /$F{srquantity}.doubleValue())*$F{srquantity}.doubleValue()) :$F{srcpcpv_amount})]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="382" y="20" width="90" height="20" uuid="6995372f-510a-499a-8580-8affaeefdbf8"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[($F{scategory}.equalsIgnoreCase("Consumers(B2C)") ? $F{srWithoutTax} : $F{sramount})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="472" y="20" width="83" height="20" isPrintWhenDetailOverflows="true" uuid="f563f035-ecd3-4ea6-b8c0-c0b7829df036"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#.##").format($F{scategory}.equalsIgnoreCase("Consumers(B2C)" )?  ($F{srWithoutTax}.doubleValue()-((($F{srquantity}.doubleValue()==0? 0:Double.valueOf($F{srcpcpv_amount})/ $F{srquantity}.doubleValue()) )*$F{srquantity}.doubleValue()) ): $F{sramount}.doubleValue()-Double.valueOf($F{srcpcpv_amount}))]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="69" splitType="Stretch">
+			<staticText>
+				<reportElement x="369" y="20" width="103" height="20" uuid="b1153e93-60b0-457e-9a43-007318539a53"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total for Sales:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="334" y="40" width="138" height="20" uuid="9b21112e-a68a-41c8-a84d-a9c965b955af"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total for Sales Return:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="10" width="555" height="1" uuid="0b5b40cf-00b6-4f81-b73b-368cc4bc35b7"/>
+			</line>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="472" y="20" width="83" height="20" isPrintWhenDetailOverflows="true" uuid="f22b0b28-b90f-4409-9285-d971543f4ece"/>
+				<textFieldExpression><![CDATA[$V{SsumofVaa}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="472" y="40" width="83" height="20" isPrintWhenDetailOverflows="true" uuid="dec1f55d-3b36-4eb6-a3f2-b9a35b336955"/>
+				<textFieldExpression><![CDATA[$V{SRsumofVaa}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

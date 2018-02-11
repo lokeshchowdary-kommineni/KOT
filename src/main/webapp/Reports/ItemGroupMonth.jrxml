@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ItemGroupMonth" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ca087e4c-6a0e-4931-a383-c810fe65ac3a">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="fromdate" class="java.lang.String"/>
+	<parameter name="enddate" class="java.lang.String"/>
+	<parameter name="itemgroupId" class="java.lang.String"/>
+	<parameter name="companyName" class="java.lang.String"/>
+	<parameter name="companyAddress" class="java.lang.String"/>
+	<parameter name="openingValue" class="java.lang.String"/>
+	<parameter name="openingQty" class="java.lang.String"/>
+	<parameter name="groupName" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT t.item_group_name,MONTHNAME(t.transaction_date),SUM(t.iq),SUM(t.iv),SUM(t.oq),SUM(t.ov),SUM(t.cq),SUM(t.cv) FROM (
+   SELECT temp.*,i.closing_quantity  AS cq, i.closing_value AS cv FROM
+ (SELECT im.item_name,igm.item_group_name,(ir.transaction_date),MAX(ir.id) AS MID , SUM(ir.in_quantity) AS iq, SUM(ir.in_value) AS iv, SUM(ir.out_quantity) AS oq,
+SUM(ir.out_value) AS ov FROM item_report ir INNER JOIN item_master im ON
+ (ir.item_id=im.id)INNER JOIN item_group_master igm ON (im.item_group=igm.id_item)
+ WHERE (ir.item_group_id IN ($P!{itemgroupId})) AND (ir.transaction_date BETWEEN $P{fromdate} AND $P{enddate})
+  GROUP BY  MONTHNAME( ir.transaction_date),ir.item_id) AS temp INNER JOIN
+   item_report i ON i.id=temp.mid ORDER BY i.transaction_date,i.id ) AS t GROUP BY MONTHNAME(t.transaction_date)]]>
+	</queryString>
+	<field name="item_group_name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="MONTHNAME(t.transaction_date)" class="java.lang.String"/>
+	<field name="SUM(t.iq)" class="java.lang.Double"/>
+	<field name="SUM(t.iv)" class="java.lang.Double"/>
+	<field name="SUM(t.oq)" class="java.lang.Double"/>
+	<field name="SUM(t.ov)" class="java.lang.Double"/>
+	<field name="SUM(t.cq)" class="java.lang.Double"/>
+	<field name="SUM(t.cv)" class="java.lang.Double"/>
+	<variable name="inqty" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{SUM(t.iq)}]]></variableExpression>
+		<initialValueExpression><![CDATA[BigDecimal.valueOf(0)]]></initialValueExpression>
+	</variable>
+	<variable name="inValue" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{SUM(t.iv)}]]></variableExpression>
+		<initialValueExpression><![CDATA[BigDecimal.valueOf(0)]]></initialValueExpression>
+	</variable>
+	<variable name="outQty" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{SUM(t.oq)}]]></variableExpression>
+		<initialValueExpression><![CDATA[BigDecimal.valueOf(0)]]></initialValueExpression>
+	</variable>
+	<variable name="outValue" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{SUM(t.ov)}]]></variableExpression>
+		<initialValueExpression><![CDATA[BigDecimal.valueOf(0)]]></initialValueExpression>
+	</variable>
+	<variable name="cloisingqty" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{SUM(t.cq)}]]></variableExpression>
+		<initialValueExpression><![CDATA[BigDecimal.valueOf(0)]]></initialValueExpression>
+	</variable>
+	<variable name="closingValue" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{SUM(t.cv)}]]></variableExpression>
+		<initialValueExpression><![CDATA[BigDecimal.valueOf(0)]]></initialValueExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="63" width="555" height="1" uuid="61c47119-16a9-4e4d-8ba2-db0f7c2c3ef4"/>
+			</line>
+			<textField>
+				<reportElement x="0" y="16" width="555" height="20" uuid="3c4a053b-7bd7-4643-9d9f-2d98e2031560"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{companyName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="36" width="555" height="20" uuid="3f1123fe-8e3c-4055-a926-c9d2000f53df"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$P{companyAddress}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="60" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="555" height="20" uuid="767c7969-f8bb-4e51-88b2-d574b6b55359"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{groupName}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="20" width="555" height="20" uuid="f83052df-daad-49a8-98a2-7ad9d625b059"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[MONTHWISE ITEM GROUP LEDGER]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="40" width="555" height="20" uuid="3d4f13cf-f3c3-4753-80cd-aacd1f37a6bf"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fromdate}+" to "+$P{enddate}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="84" splitType="Stretch">
+			<staticText>
+				<reportElement x="18" y="30" width="89" height="20" uuid="7831e443-9e49-4df6-a7b0-78131cf94330"/>
+				<textElement textAlignment="Center">
+					<font isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="198" y="31" width="41" height="20" uuid="191dfc5e-ed2f-45c3-a2a6-d171e953fba7"/>
+				<textElement textAlignment="Center">
+					<font isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Qty]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="249" y="30" width="70" height="20" uuid="35bc6c5e-e1b5-491a-a30a-328e6146b1f5"/>
+				<textElement textAlignment="Center">
+					<font isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Value]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="325" y="30" width="44" height="20" uuid="2b33af97-12bf-4072-9dd0-2c13e79ff68b"/>
+				<textElement textAlignment="Center">
+					<font isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Qty]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="426" y="30" width="52" height="20" uuid="14304f95-3ed7-4727-aeec-07e426fffaf8"/>
+				<textElement textAlignment="Center">
+					<font isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Qty]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="490" y="30" width="59" height="20" uuid="19cd1a46-ff12-4797-9977-982593a72725"/>
+				<textElement textAlignment="Center">
+					<font isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Value]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="378" y="30" width="38" height="20" uuid="8d13d3cf-0308-4ae8-a6d7-d184d3dc9774"/>
+				<textElement>
+					<font isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Value]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="206" y="10" width="100" height="20" uuid="745a77d2-b7ca-41c8-a156-1f1d58ed59ea"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Inwards]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="319" y="10" width="100" height="20" uuid="35dfcc56-3d9e-43ec-89b6-be80765b3d10"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Outwards]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="438" y="10" width="100" height="20" uuid="93976beb-9a40-47a9-97dc-87c4b0ee3b5d"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Closing]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="9" width="555" height="1" uuid="91accc69-3228-441a-b1ff-349c1b61eccd"/>
+			</line>
+			<line>
+				<reportElement x="0" y="59" width="555" height="1" uuid="586e31b7-bfc4-407b-8d7b-0856002de187"/>
+			</line>
+			<staticText>
+				<reportElement x="18" y="64" width="89" height="20" uuid="db026f42-18ce-483b-8607-cd2886ce99e5"/>
+				<textElement textAlignment="Center">
+					<font isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Opening Balance]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="426" y="64" width="52" height="20" isPrintWhenDetailOverflows="true" uuid="0198fbd9-b25a-47f9-809a-85cd7a76eff8"/>
+				<textFieldExpression><![CDATA[$P{openingQty}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="490" y="64" width="59" height="20" isPrintWhenDetailOverflows="true" uuid="03579f32-39a9-4da3-8f75-9f5ae66febd1"/>
+				<textFieldExpression><![CDATA[$P{openingValue}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="29" splitType="Stretch">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="198" y="0" width="41" height="20" isPrintWhenDetailOverflows="true" uuid="a0d537f9-5f01-469e-a4aa-fdf7f93beb44"/>
+				<textFieldExpression><![CDATA[$F{SUM(t.iq)}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="258" y="0" width="61" height="20" isPrintWhenDetailOverflows="true" uuid="03c37584-fac0-43e6-b39d-b9b51dd8e8e6"/>
+				<textFieldExpression><![CDATA[$F{SUM(t.iv)}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="325" y="0" width="44" height="20" isPrintWhenDetailOverflows="true" uuid="776c4fa9-cafc-429b-859a-6dd1fc97644d"/>
+				<textFieldExpression><![CDATA[$F{SUM(t.oq)}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="378" y="0" width="38" height="20" isPrintWhenDetailOverflows="true" uuid="be9e2c05-bd53-4381-b76b-bfe21772f41d"/>
+				<textFieldExpression><![CDATA[$F{SUM(t.ov)}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="426" y="0" width="52" height="20" isPrintWhenDetailOverflows="true" uuid="3881ee51-4aee-4c10-8e0d-ff0dd90371e4"/>
+				<textFieldExpression><![CDATA[$F{SUM(t.cq)}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="490" y="0" width="59" height="20" isPrintWhenDetailOverflows="true" uuid="13779ffc-4827-40a5-b233-4dfa690578f7"/>
+				<textFieldExpression><![CDATA[$F{SUM(t.cv)}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="18" y="0" width="89" height="20" uuid="24cfbd14-3d5b-4ccf-bd4a-df710d541b70"/>
+				<textFieldExpression><![CDATA[$F{MONTHNAME(t.transaction_date)}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="39" splitType="Stretch">
+			<staticText>
+				<reportElement x="18" y="11" width="89" height="20" uuid="d0a9f947-e9f7-43d7-b225-dce58d69906b"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Grand Total]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="198" y="11" width="41" height="20" isPrintWhenDetailOverflows="true" uuid="371ab355-cb7e-434f-8473-b96c9cf7eca3"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{inqty}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="249" y="11" width="70" height="20" isPrintWhenDetailOverflows="true" uuid="09d4a411-d564-44e0-86dc-6edd95a62cf7"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{inValue}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="325" y="11" width="44" height="20" isPrintWhenDetailOverflows="true" uuid="9f1d9ee3-dbe0-42fc-9e63-929483c5f07c"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{outQty}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="378" y="11" width="38" height="20" isPrintWhenDetailOverflows="true" uuid="bcbf91a4-4038-4292-9a14-9d36ec4c3456"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{outValue}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="555" height="1" uuid="d520ece9-e666-4b98-b5f0-da0079792171"/>
+			</line>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="426" y="11" width="52" height="20" isPrintWhenDetailOverflows="true" uuid="469d0118-ed60-43f8-b4ab-310de63eaa3c"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{cloisingqty}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="490" y="11" width="59" height="20" isPrintWhenDetailOverflows="true" uuid="0f61e5e8-a359-4204-b837-53ee8a64ae99"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{closingValue}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

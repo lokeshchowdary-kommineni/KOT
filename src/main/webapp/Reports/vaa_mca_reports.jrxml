@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="vaa_mca_reports" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ddb6c90d-e378-4ebc-b51b-13e83e92dd96">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="startDate" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="endDate" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="companyName" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="Companyaddress" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select * from
+(select s.invoice_no,s.date AS sdate,s.vaa,s.mca,s.assess_value from sales s WHERE s.date BETWEEN $P{startDate} AND $P{endDate}) as s left join
+(select sr.invoice_no,sum(sr.vaa) AS srvaa,sum(sr.mca) AS srmca,sum(sr.assess_value) AS srassessvalue  from sales_return AS sr
+where sr.date BETWEEN $P{startDate} AND $P{endDate} group by sr.invoice_no) as sr on s.invoice_no=sr.invoice_no]]>
+	</queryString>
+	<field name="invoice_no" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="sdate" class="java.sql.Date"/>
+	<field name="vaa" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="mca" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="assess_value" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="srvaa" class="java.lang.Double"/>
+	<field name="srmca" class="java.lang.Double"/>
+	<field name="srassessvalue" class="java.lang.Double"/>
+	<variable name="SumsAss" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{assess_value}]]></variableExpression>
+		<initialValueExpression><![CDATA[Double.valueOf(0.0)]]></initialValueExpression>
+	</variable>
+	<variable name="SumsrAss" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{srassessvalue}]]></variableExpression>
+		<initialValueExpression><![CDATA[Double.valueOf(0.0)]]></initialValueExpression>
+	</variable>
+	<variable name="SumSVaa" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{vaa}]]></variableExpression>
+		<initialValueExpression><![CDATA[Double.valueOf(0.0)]]></initialValueExpression>
+	</variable>
+	<variable name="SumSRVAA" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{srvaa}]]></variableExpression>
+		<initialValueExpression><![CDATA[Double.valueOf(0.0)]]></initialValueExpression>
+	</variable>
+	<variable name="SumSMCA" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{mca}]]></variableExpression>
+		<initialValueExpression><![CDATA[Double.valueOf(0.0)]]></initialValueExpression>
+	</variable>
+	<variable name="SumSRMCA" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{srmca}]]></variableExpression>
+		<initialValueExpression><![CDATA[Double.valueOf(0.0)]]></initialValueExpression>
+	</variable>
+	<variable name="SumV-M" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{vaa}.doubleValue()-$F{mca}.doubleValue()]]></variableExpression>
+		<initialValueExpression><![CDATA[Double.valueOf(0.0)]]></initialValueExpression>
+	</variable>
+	<variable name="SUMSRV-M" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{srvaa}.doubleValue()-$F{srmca}.doubleValue()]]></variableExpression>
+		<initialValueExpression><![CDATA[Double.valueOf(0.0)]]></initialValueExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="101" splitType="Stretch">
+			<textField isBlankWhenNull="false">
+				<reportElement x="0" y="0" width="555" height="20" uuid="7f8f3ac3-4366-4a27-97be-50796809eba7"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{companyName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="20" width="555" height="20" uuid="2fc5253e-a625-41d5-ab29-a5681819c101"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$P{Companyaddress}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="52" width="555" height="1" uuid="d96d57ac-df56-4088-8618-21aba9c1e2a7"/>
+			</line>
+			<staticText>
+				<reportElement x="0" y="53" width="555" height="20" uuid="8572cd81-a159-4fb9-a260-9a56f1c7a24d"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[VAA MCA REPORTS ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="1" y="81" width="554" height="20" uuid="f985c7a6-3b46-4332-871b-c254e98825a2"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy").format($P{startDate})+" to "+new SimpleDateFormat("dd/MM/yyyy").format($P{endDate})]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="34" splitType="Stretch">
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="1" y="13" width="100" height="20" uuid="8ffd7d73-bb23-49bb-b731-70b4973e1d33"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="436" y="13" width="80" height="20" isPrintWhenDetailOverflows="true" uuid="785b69cd-f52b-4ae5-ad91-98fd013b5ca0"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="1" y="33" width="555" height="1" uuid="9efcb6f6-f6c1-42b6-b7ea-1b95647b46da"/>
+			</line>
+			<textField isStretchWithOverflow="true" evaluationTime="Report" isBlankWhenNull="true">
+				<reportElement x="516" y="13" width="40" height="20" isPrintWhenDetailOverflows="true" uuid="4fa59f6d-555c-43d4-be43-b26f078d7bbd"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="40" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="31" width="555" height="1" uuid="49ee682c-55d9-45a6-89ba-a184c6638e31"/>
+			</line>
+			<staticText>
+				<reportElement x="1" y="11" width="70" height="20" uuid="c279b80d-8d8a-4d58-ade5-4cc9654fd136"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[BILL NO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="478" y="12" width="77" height="20" uuid="4eda75ef-97d4-4a3e-b4e5-381db1900ddc"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[VAA-MCA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="236" y="12" width="100" height="20" uuid="3483c12a-81d9-4c34-832f-e73e9a780463"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[ASSESS VALUE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="148" y="11" width="88" height="20" uuid="0720f8a1-c4ba-46ea-8521-c42d4640f123"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[DATE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="336" y="11" width="82" height="20" uuid="8dfd1c6a-2a7d-4510-b490-8fab3801f9c9"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[VAA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="418" y="12" width="60" height="20" uuid="6105416d-7c01-4963-bdcc-59f39ad6a3f4"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[MCA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="71" y="11" width="77" height="20" uuid="1a110206-991c-41a4-b79d-b62d0497fc44"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[TYPE]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="47" splitType="Stretch">
+			<textField>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="1" y="5" width="70" height="20" isPrintWhenDetailOverflows="true" uuid="155cebf5-c8e3-4cb2-9de4-dcf534ef3d85"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{invoice_no}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="148" y="5" width="88" height="20" isPrintWhenDetailOverflows="true" uuid="a1f9b812-61b9-42f5-b225-830a6f0f5f37"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy").format($F{sdate})]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="71" y="5" width="77" height="20" isPrintWhenDetailOverflows="true" uuid="8478badc-76c3-4256-b392-a6ea6d96dd7b"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[SALES]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="71" y="25" width="77" height="20" isPrintWhenDetailOverflows="true" uuid="5d5a93ff-8e73-4c63-8233-e056c2acb8e0"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[SALES RETURN]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="478" y="5" width="77" height="20" isPrintWhenDetailOverflows="true" uuid="6ce722ef-183a-44f0-ab52-d982e4bc236a"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{vaa}.doubleValue()-$F{mca}.doubleValue()]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="478" y="25" width="77" height="20" isPrintWhenDetailOverflows="true" uuid="f0442e18-72b3-4fce-b139-5ec0f3416ced"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{srvaa}.doubleValue()-$F{srmca}.doubleValue()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="236" y="5" width="100" height="20" isPrintWhenDetailOverflows="true" uuid="842cd2bb-39e4-42b0-b798-bc4bfad1f985"/>
+				<textFieldExpression><![CDATA[$F{assess_value}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="235" y="27" width="100" height="20" isPrintWhenDetailOverflows="true" uuid="d6e5d285-b683-47cb-9e6f-2a432fe4f6bb"/>
+				<textFieldExpression><![CDATA[$F{srassessvalue}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="336" y="5" width="82" height="20" isPrintWhenDetailOverflows="true" uuid="1c9bc147-91b9-45fb-b7f5-711e68bd0d69"/>
+				<textFieldExpression><![CDATA[$F{vaa}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="336" y="27" width="82" height="20" isPrintWhenDetailOverflows="true" uuid="a8ae7009-165c-4625-b99e-07d10797be1c"/>
+				<textFieldExpression><![CDATA[$F{srvaa}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="418" y="5" width="60" height="20" isPrintWhenDetailOverflows="true" uuid="95fd0c7b-322c-4beb-beae-25503e202ec5"/>
+				<textFieldExpression><![CDATA[$F{mca}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="418" y="27" width="60" height="20" isPrintWhenDetailOverflows="true" uuid="2be2ad01-8d5a-4957-ae6a-7cbc941cd9cc"/>
+				<textFieldExpression><![CDATA[$F{srmca}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="58" splitType="Stretch">
+			<staticText>
+				<reportElement x="117" y="32" width="118" height="20" uuid="47ff05d0-08e9-49ad-bb36-49a31fed0f24"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total For Sales Return:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="118" y="12" width="118" height="20" uuid="0307667f-e55a-4752-b8a2-3d4e4438ea15"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total For Sales:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="1" y="0" width="554" height="1" uuid="9786bcc5-268b-44cd-80dd-b0554bc468e7"/>
+			</line>
+			<textField>
+				<reportElement x="236" y="12" width="100" height="20" uuid="495da055-3fb8-4aa3-8b3e-edcc2ea5ba8c"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$V{SumsAss}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="235" y="32" width="100" height="20" isPrintWhenDetailOverflows="true" uuid="9daeccb8-3e6a-4cc8-a1df-514b411f8cf7"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$V{SumsrAss}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="335" y="32" width="83" height="20" uuid="c4cf4df5-125c-4568-8e91-80c396d55188"/>
+				<textFieldExpression><![CDATA[new DecimalFormat("#.##").format(Double.valueOf($V{SumSRVAA}))
+]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="418" y="12" width="60" height="20" isPrintWhenDetailOverflows="true" uuid="e637b611-4357-46e3-b058-e00ec74cdd54"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$V{SumSMCA}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="418" y="32" width="60" height="20" isPrintWhenDetailOverflows="true" uuid="7e582344-f19d-4f10-9246-3879df9f63f5"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$V{SumSRMCA}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="478" y="32" width="77" height="20" isPrintWhenDetailOverflows="true" uuid="179c57a2-094b-42b8-b0a4-9843cd8c5a0c"/>
+				<textFieldExpression><![CDATA[new DecimalFormat("#.##").format(Double.valueOf($V{SUMSRV-M}))]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="336" y="12" width="82" height="20" uuid="807e074a-a8f7-4303-831f-c0e60fd124bc"/>
+				<textFieldExpression><![CDATA[new DecimalFormat("#.##").format(Double.valueOf($V{SumSVaa}))]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="478" y="12" width="77" height="20" uuid="626b32ab-4b6e-47b9-9d2f-fc964e3b6558"/>
+				<textFieldExpression><![CDATA[new DecimalFormat("#.##").format(Double.valueOf($V{SumV-M}))]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>
